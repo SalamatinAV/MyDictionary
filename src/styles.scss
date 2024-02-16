@@ -1,1 +1,291 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$dictionary-primary: mat.define-palette(mat.$indigo-palette);
+$dictionary-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$dictionary-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$dictionary-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $dictionary-primary,
+      accent: $dictionary-accent,
+      warn: $dictionary-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($dictionary-theme);
+
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+@import "primeng/resources/themes/saga-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons.css";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: url(./assets/img/languages.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+.conteiner {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .general-style {
+    padding: 20px 15px;
+    border: 1px solid #383636;
+    border-top: 0;
+    border-bottom: 0;
+    box-sizing: border-box;
+  }
+}
+
+// .btn-bl {
+//   display: flex;
+//   justify-content: space-around;
+//   flex-wrap: wrap;
+//   button {
+//     background-color: orange !important;
+//     margin: 1rem 0;
+//   }
+// }
+
+// =========================================================
+//                      Scroll
+// =========================================================
+*::-webkit-scrollbar {
+  width: 2px; /* ширина всей полосы прокрутки */
+}
+
+*::-webkit-scrollbar-track {
+  // background: rgba(56, 54, 54, 0); /* цвет зоны отслеживания */
+  background: rgba(0, 0, 0, 0.76); /* цвет зоны отслеживания */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(243 161 9); /* цвет бегунка */
+  border-radius: 10px; /* округлось бегунка */
+}
+.no-dictionary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h1 {
+    font-size: 3.7rem;
+    color: orange;
+  }
+  p {
+    font-size: 1.3rem;
+    margin: 20px 0;
+    color: orange;
+  }
+}
+
+// =============================================
+//                PAGINATOR
+// ==========================================
+.paginator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.p-paginator {
+  background: #e91e6200 !important;
+  color: #6c757d;
+  border: solid #e9ecef;
+  border-width: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #271f1f;
+  border-color: #e3f2fd;
+  color: #ff9800 !important;
+  border-radius: 50%;
+}
+.p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
+  background: #271f1f;
+  border-color: #e3f2fd;
+  color: #ff9800 !important;
+  border-radius: 50%;
+}
+.p-paginator .p-paginator-first:not(.p-disabled):not(.p-highlight):hover,
+.p-paginator .p-paginator-prev:not(.p-disabled):not(.p-highlight):hover,
+.p-paginator .p-paginator-next:not(.p-disabled):not(.p-highlight):hover,
+.p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover {
+  background: #271f1f;
+  border-color: #e3f2fd;
+  color: #ff9800 !important;
+  border-radius: 50%;
+}
+.p-link:focus {
+  box-shadow: none;
+}
+
+// =============================================
+//                INPUT
+// ==========================================
+//
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: rgb(241 241 241) !important;
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #00000099 !important;
+}
+
+.main-content {
+  position: relative;
+  mat-form-field {
+    width: 400px;
+  }
+  .word-order-block-btn {
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    width: 60px;
+    background-color: rgba(0, 0, 0, 0.226);
+    border-radius: 8px;
+    border: 1px solid #ffa50063;
+    .rotate-conteiner {
+      transition: all 0.3s linear;
+    }
+    .mat-icon.mat-warn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // transform: rotate(0deg);
+      height: 40px;
+      width: 50px;
+      font-size: 50px;
+    }
+  }
+  .word-order-block-btn:hover {
+    background-color: rgba(0, 0, 0, 0.603);
+    border: 1px solid #ffa600b0;
+  }
+  .main-bl-word {
+    position: absolute;
+    top: 90px;
+    right: 15px;
+    bottom: 60px;
+    left: 15px;
+    overflow: auto;
+    .mat-divider {
+      --mat-divider-width: 1px !important;
+      margin: 0 !important;
+      border-top-color: #ffffff !important;
+    }
+    .word-output-bl {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      border: 1px solid #03a8f400;
+      border-bottom: 1px solid;
+      background-color: #00000094;
+      * {
+        font-size: 1rem;
+      }
+      .star {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 8px;
+        font-size: 24px !important;
+        height: 29px;
+        color: rgb(0 170 193 / 50%);
+        transition: 0.3s;
+      }
+      .star:hover {
+        color: rgba(255, 255, 0, 0.445);
+      }
+      .number {
+        width: 56px;
+      }
+      .data {
+        padding-right: 10px;
+      }
+      span {
+        color: gray;
+        padding: 5px 0;
+        font-size: 14px;
+      }
+      .bl-en-ru {
+        display: flex;
+        background-color: rgba(255, 0, 0, 0);
+        width: -webkit-fill-available;
+        cursor: pointer;
+        .en {
+          padding: 5px 10px;
+          text-align: center;
+          width: 50%;
+          border-right: 1px dashed white;
+        }
+        .ru {
+          padding: 5px 10px;
+          text-align: center;
+          width: 50%;
+        }
+      }
+    }
+
+    .focus,
+    .word-output-bl:hover {
+      border-radius: 3px;
+      border: 1px solid #03a9f4;
+      .bl-en-ru {
+        background-color: #000000;
+        p {
+          color: orange;
+        }
+      }
+      .star {
+        background-color: #000000;
+      }
+      span {
+        background-color: #000000;
+        color: orange;
+      }
+    }
+    .word-o {
+      background-color: yellow;
+    }
+  }
+}

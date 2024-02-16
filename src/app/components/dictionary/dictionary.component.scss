@@ -1,0 +1,105 @@
+.mat-mdc-raised-button[disabled][disabled] {
+  --mdc-protected-button-disabled-container-color: rgb(255 165 0 / 40%);
+}
+
+.btn-bl {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  button {
+    background-color: #ffa500d4;
+    margin-top: 15px;
+  }
+}
+.settings mat-form-field {
+  width: -webkit-fill-available;
+}
+.mat-divider {
+  --mat-divider-width: 2px !important;
+  margin: 20px 0 !important;
+  border-top-color: #607d8b !important;
+}
+
+:host ::ng-deep {
+  // ========================================================
+  //                    TEXTAREA
+  // ========================================================
+
+  .settings
+    mat-form-field.mat-mdc-form-field:not(.mat-form-field-no-animations)
+    .mdc-text-field__input {
+    height: 300px;
+    resize: none;
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
+      .mdc-text-field--focused
+    ):hover
+    .mdc-notched-outline
+    .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
+      .mdc-text-field--focused
+    ):hover
+    .mdc-notched-outline
+    .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
+      .mdc-text-field--focused
+    ):hover
+    .mdc-notched-outline
+    .mdc-notched-outline__trailing {
+    border-color: rgba(255, 166, 0, 0.664);
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-notched-outline__trailing {
+    border-color: rgba(255, 166, 0, 0.411);
+  }
+
+  .mdc-text-field--outlined:not(
+      .mdc-text-field--disabled
+    ).mdc-text-field--focused
+    .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(
+      .mdc-text-field--disabled
+    ).mdc-text-field--focused
+    .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(
+      .mdc-text-field--disabled
+    ).mdc-text-field--focused
+    .mdc-notched-outline__trailing {
+    border-color: orange;
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-text-field__input::placeholder {
+    color: rgb(167, 167, 167);
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-text-field__input {
+    caret-color: orange;
+    color: white;
+  }
+
+  // =============================================
+  //                BUTTON
+  // ==========================================
+  .mat-mdc-button .mdc-button__label,
+  .mat-mdc-unelevated-button .mdc-button__label,
+  .mat-mdc-raised-button .mdc-button__label,
+  .mat-mdc-outlined-button .mdc-button__label {
+    z-index: 1;
+    color: black;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .mat-mdc-raised-button:disabled {
+    background-color: var(
+      --mdc-protected-button-disabled-container-color,
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+  }
+}

@@ -1,0 +1,29 @@
+.sharad {
+  min-width: 600px;
+  background-color: rgb(0, 0, 0);
+  border: 2px solid rgb(255, 255, 255);
+  .warning {
+    text-align: center;
+    padding-top: 30px;
+    mat-icon {
+      color: yellow;
+      height: 50px;
+      width: 50px;
+      font-size: 50px;
+    }
+  }
+  h5 {
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 400;
+  }
+  .dialog-btn {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    button {
+      background-color: green;
+    }
+  }
+}

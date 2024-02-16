@@ -1,0 +1,175 @@
+.learn-block {
+  padding: 20px;
+  h1 {
+    margin: 10px 0;
+    text-align: center;
+    letter-spacing: 5px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    font-size: 3rem;
+  }
+  .word {
+    text-align: center;
+    font-size: 4rem;
+    color: orange;
+    margin: 2rem 0;
+  }
+}
+.translation-block {
+  .mat-divider {
+    margin: 10px 0;
+  }
+  padding: 20px;
+  .statistic {
+    display: flex;
+    justify-content: space-between;
+    span {
+      min-width: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .translation {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 35px;
+  }
+  .btn-bl {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    // button {
+    //   background-color: #ffa500d4;
+    //   margin: 1rem 0;
+    p {
+      color: #791e01;
+      font-size: 9px;
+    }
+    // }
+  }
+  .msg {
+    text-align: center;
+    font-size: 5rem;
+    margin-top: 1rem;
+  }
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.mat-divider {
+  --mat-divider-width: 2px;
+  display: block;
+  margin: 25px 0;
+  border-top-style: solid;
+  border-top-color: #607d8b;
+  border-top-width: var(--mat-divider-width);
+}
+.example-section {
+  margin: 12px 0;
+}
+
+:host ::ng-deep {
+  .mat-mdc-radio-button.mat-accent {
+    --mdc-radio-unselected-hover-icon-color: orange;
+    --mdc-radio-unselected-icon-color: rgb(81 85 49);
+    --mdc-radio-selected-focus-icon-color: orange;
+    --mdc-radio-selected-hover-icon-color: orange;
+    --mdc-radio-selected-icon-color: orange;
+    --mdc-radio-selected-pressed-icon-color: orange;
+    --mat-radio-checked-ripple-color: black;
+  }
+
+  .mat-mdc-checkbox.mat-accent {
+    --mdc-checkbox-unselected-icon-color: rgb(81 85 49);
+    --mdc-checkbox-selected-focus-state-layer-color: black;
+    --mdc-checkbox-selected-pressed-state-layer-color: black;
+    --mdc-checkbox-selected-focus-icon-color: orange;
+    --mdc-checkbox-selected-hover-icon-color: orange;
+    --mdc-checkbox-selected-icon-color: orange;
+    --mdc-checkbox-selected-pressed-icon-color: orange;
+    --mdc-checkbox-unselected-focus-icon-color: orange;
+    --mdc-checkbox-unselected-hover-icon-color: orange;
+    --mdc-checkbox-disabled-selected-icon-color: orange;
+    --mdc-checkbox-disabled-unselected-icon-color: orange;
+  }
+  // ==============================================
+  //                         INPUT
+  // ==============================================
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: #00000099;
+    height: 80px;
+    border-radius: 15px;
+  }
+  .mat-mdc-form-field {
+    width: -webkit-fill-available;
+  }
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-text-field__input {
+    color: #cacaca;
+    text-align: center;
+    font-size: 2rem;
+  }
+  .ng-tns-c1205077789-0 {
+    color: #9e9e9e;
+  }
+  // =============================================
+  //                BUTTON
+  // ==========================================
+  .mat-mdc-button .mdc-button__label,
+  .mat-mdc-unelevated-button .mdc-button__label,
+  .mat-mdc-raised-button .mdc-button__label,
+  .mat-mdc-outlined-button .mdc-button__label {
+    z-index: 1;
+    color: black;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .mat-mdc-raised-button:disabled {
+    background-color: var(
+      --mdc-protected-button-disabled-container-color,
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+  }
+  .mat-mdc-raised-button:not(:disabled) {
+    background-color: #ff9800;
+    margin: 1rem 0;
+  }
+  .mat-mdc-radio-button .mdc-radio--disabled + label {
+    color: rgb(255 255 255 / 38%);
+  }
+  // =========================
+  label.mdc-label {
+    display: flex;
+  }
+}
+.mat-mdc-raised-button[disabled][disabled] {
+  --mdc-protected-button-disabled-container-color: rgb(255 165 0 / 40%);
+  margin: 1rem 0;
+}
+
+.select {
+  display: flex;
+  select {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: #ff9800;
+    margin: 0 10px;
+    padding: 2px;
+    border-radius: 5px;
+  }
+  select:focus {
+    outline: none;
+    border-color: #ff9800;
+    box-shadow: 0 0 5px #ff9800;
+  }
+  select option {
+    background-color: #000000;
+  }
+}

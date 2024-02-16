@@ -1,0 +1,10 @@
+.star {
+  color: rgba(255, 0, 0, 0.719) !important;
+}
+.star:hover {
+  color: red !important;
+}
+
+.mat-mdc-raised-button[disabled][disabled] {
+  --mdc-protected-button-disabled-container-color: rgb(255 165 0 / 40%);
+}

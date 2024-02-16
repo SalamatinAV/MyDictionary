@@ -1,0 +1,171 @@
+<div class="conteiner">
+  <div
+    *ngIf="selectedDictionary.length; else noDictionary"
+    class="main-content general-style"
+  >
+    <div class="learn-block">
+      <h1>Переведите слово</h1>
+      <p *ngIf="!noWord; else not" class="word">
+        {{
+          languagePriority === "Русский - Английский"
+            ? (selectedDictionary[currentIndex].wordRu | commaSpace)
+            : (selectedDictionary[currentIndex].wordEn | commaSpace)
+        }}
+      </p>
+      <ng-template #not>
+        <p class="word">Конец словаря!</p>
+      </ng-template>
+    </div>
+    <div class="translation-block">
+      <mat-divider></mat-divider>
+      <div class="statistic">
+        <p>
+          <span>
+            {{ currentIndex + 1 }}
+          </span>
+          из
+          <span>
+            {{ selectedDictionary.length }}
+          </span>
+        </p>
+        <p>
+          <span>Ошибки:</span>
+          <span>{{ mistakesArray.length }}</span>
+        </p>
+      </div>
+      <mat-divider></mat-divider>
+      <mat-form-field color="warn" class="example-form-field">
+        <mat-label>Введите перевод</mat-label>
+        <input
+          #myInput
+          matInput
+          type="text"
+          [formControl]="inputControl"
+          (keydown.enter)="examinationWord()"
+          (keydown.arrowright)="nextWord()"
+          (keydown.arrowleft)="backWord()"
+          (keydown.shift)="flagShowTranslation = !flagShowTranslation"
+        />
+      </mat-form-field>
+      <p [style.opacity]="!flagShowTranslation ? 0 : 1" class="translation">
+        {{
+          languagePriority === "Русский - Английский"
+            ? selectedDictionary[currentIndex].wordEn
+            : selectedDictionary[currentIndex].wordRu
+        }}
+      </p>
+      <mat-divider></mat-divider>
+
+      <div class="btn-bl">
+        <button
+          [disabled]="inputControl.value === ''"
+          (click)="examinationWord()"
+          mat-raised-button
+        >
+          Проверить
+          <p>(Enter)</p>
+        </button>
+        <button
+          mat-raised-button
+          [disabled]="
+            (currentIndex === 0 && !wordOrder.get('repeat')?.value) ||
+            (this.wordOrder.get('random')?.value &&
+              wordOrder.get('repeat')?.value)
+          "
+          (click)="backWord()"
+        >
+          Предыдущее
+          <p>(arrow left)</p>
+        </button>
+        <button mat-raised-button [disabled]="noWord" (click)="nextWord()">
+          Следующее
+          <p>(arrow right)</p>
+        </button>
+        <button
+          mat-raised-button
+          [disabled]="grade === null"
+          (click)="flagShowTranslation = !flagShowTranslation"
+        >
+          Показать перевод
+          <p>(Shift)</p>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+      <p
+        *ngIf="grade !== null"
+        [ngStyle]="{ color: grade ? 'green' : 'red' }"
+        class="msg"
+      >
+        {{ grade ? "Правильно!" : "Неправильно!" }}
+      </p>
+    </div>
+  </div>
+  <!-- ========================================================= -->
+  <div class="settings general-style">
+    <label id="example-radio-group-label">Перевод:</label>
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="languagePriority"
+    >
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let language of language"
+        [value]="language"
+        (click)="inputControl.setValue('')"
+      >
+        {{ language }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-divider></mat-divider>
+
+    <label>Порядок слов:</label>
+    <section class="example-section" [formGroup]="wordOrder">
+      <p>
+        <mat-checkbox formControlName="random">Случайный порядок</mat-checkbox>
+      </p>
+      <p>
+        <mat-checkbox formControlName="repeat">Повтор слов</mat-checkbox>
+      </p>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <label id="example-radio-group-label">Использовать:</label>
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="wordPriority"
+    >
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let season of priority"
+        [value]="season"
+        [disabled]="isAnyArrayEmpty(season)"
+        (click)="handleRadioClick($event, season)"
+      >
+        {{ season }}
+        <div *ngIf="season === 'Выбрать последние'" class="select">
+          <select [disabled]="dictionary.length < 5" name="" id="">
+            <option value="">5</option>
+            <option value="">10</option>
+            <option value="">20</option>
+          </select>
+        </div>
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-divider></mat-divider>
+
+    <p>Действия над ошибками:</p>
+    <button mat-raised-button>Показать</button>
+  </div>
+</div>
+<ng-template #noDictionary>
+  <div class="no-dictionary">
+    <h1>Словарь пуст!</h1>
+    <p>Для добавления слов перейдите во вкладку "Словарь".</p>
+    <button (click)="redirectToDictionary()" mat-raised-button>Перейти</button>
+  </div>
+</ng-template>

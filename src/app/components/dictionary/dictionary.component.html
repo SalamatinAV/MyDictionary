@@ -1,0 +1,163 @@
+<div class="conteiner">
+  <div class="main-content general-style">
+    <mat-form-field color="warn" class="example-full-width">
+      <mat-label>Поиск в словаре</mat-label>
+      <input [formControl]="formControlSearch" matInput />
+      <button
+        *ngIf="formControlSearch.value"
+        matSuffix
+        mat-icon-button
+        (click)="formControlSearch.setValue('')"
+      >
+        <mat-icon color="warn" class="material-icons-outlined"
+          >highlight_off</mat-icon
+        >
+      </button>
+    </mat-form-field>
+
+    <div
+      *ngIf="dictionary.length"
+      class="word-order-block-btn"
+      (click)="reversDictionary()"
+    >
+      <div
+        class="rotate-conteiner"
+        [style.transform]="flagReverseDictionary ? 'rotate(-180deg)' : 'none'"
+      >
+        <mat-icon color="warn">keyboard_arrow_down</mat-icon>
+      </div>
+    </div>
+
+    <div *ngIf="dictionary.length; else noDictionary" class="main-bl-word">
+      <mat-divider></mat-divider>
+      <!-- =================================================================================== -->
+      <!-- !word.favorites ? 'Добавить в избранные' : 'Удалить из избранных' -->
+      <div
+        *ngFor="
+          let word of searchDictionary | slice : first : first + rows;
+          let idx = index
+        "
+        [ngClass]="{ focus: word.wordEn === selectedWord?.wordEn }"
+        (click)="selectWord(word)"
+        class="word-output-bl"
+      >
+        <mat-icon
+          [pTooltip]="
+            !word.favorites ? 'Добавить в избранные' : 'Удалить из избранных'
+          "
+          [positionLeft]="20"
+          [style.color]="word.favorites ? 'yellow' : ''"
+          (click)="favorites(word, $event)"
+          class="star material-icons-outlined"
+        >
+          star
+        </mat-icon>
+        <span class="number">
+          {{
+            flagReverseDictionary
+              ? searchDictionary.length - idx - first
+              : idx + first + 1
+          }}
+        </span>
+        <div class="bl-en-ru">
+          <p class="en">{{ word.wordEn }}</p>
+          <p class="ru">{{ word.wordRu }}</p>
+        </div>
+        <span class="data"> {{ word.data | date : "dd.LL.YY" }}</span>
+      </div>
+
+      <!-- ==================================================================================== -->
+    </div>
+    <div *ngIf="searchDictionary.length !== 0" class="paginator">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="totalRecords"
+      ></p-paginator>
+    </div>
+  </div>
+  <div class="settings general-style">
+    <mat-form-field class="tx example-full-width" [appearance]="'outline'">
+      <mat-label>Добавить слова</mat-label>
+      <textarea
+        [formControl]="formControlTextarea"
+        matInput
+        placeholder="Пример добавления слов:
+        English = английский
+
+Если несколько слов:
+        a lot = много
+        tea = чай
+        airport = аэропорт
+        ... "
+        (blur)="isShowRequiredError()"
+      ></textarea>
+      <mat-error *ngIf="formControlTextarea.hasError('latinCyrillic')">
+        Поле заполнено не корректно
+      </mat-error>
+    </mat-form-field>
+    <!-- ============================================================= -->
+    <div class="btn-bl">
+      <button
+        (click)="addWords()"
+        mat-raised-button
+        [disabled]="formControlTextarea.invalid"
+      >
+        Добавить
+      </button>
+      <button
+        [disabled]="formControlTextarea.value === ''"
+        (click)="formControlTextarea.setValue('')"
+        mat-raised-button
+      >
+        Очистить поле
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <!-- ============================================================== -->
+    <p>Действия над выделенымы словами</p>
+
+    <div class="btn-bl">
+      <button (click)="editWord()" [disabled]="!selectedWord" mat-raised-button>
+        Редактировать
+      </button>
+      <button
+        (click)="cancelWordFlag()"
+        [disabled]="!selectedWord"
+        mat-raised-button
+      >
+        Отмена
+      </button>
+      <button
+        (click)="deleteWord()"
+        [disabled]="!selectedWord"
+        mat-raised-button
+      >
+        Удалить
+      </button>
+    </div>
+    <!-- ================================================================= -->
+    <mat-divider></mat-divider>
+    <p>Удаление словаря</p>
+    <div class="btn-bl">
+      <button
+        [disabled]="dictionary.length === 0"
+        mat-raised-button
+        (click)="deleteDictionaryDialog('deleteDictionary')"
+      >
+        Удалить словарь
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #noDictionary>
+  <div class="no-dictionary">
+    <h1>Словарь пуст!</h1>
+    <p>Добавьте свои слова либо скопируйте предложенные</p>
+    <pre
+      style="font-size: 1.5rem; color: grey"
+    >word=слово<br>milk=молоко<br>mistake=ошибка<br>want=хотеть<br>you=ты,вы<br>programmer=программист<br>usualy=обычно<br>different=различный<br>abroad=за границей<br>happy=счастливый<br>more=больше<br>less=меньше<br>any=какой-либо<br>have=иметь<br>many=много</pre>
+  </div>
+</ng-template>

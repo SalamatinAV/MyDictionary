@@ -1,0 +1,74 @@
+<div class="conteiner">
+  <div class="main-content general-style">
+    <mat-form-field color="warn" class="example-full-width">
+      <mat-label>Поиск в словаре</mat-label>
+      <input [formControl]="formControlSearch" matInput />
+      <button
+        *ngIf="formControlSearch.value"
+        matSuffix
+        mat-icon-button
+        (click)="formControlSearch.setValue('')"
+      >
+        <mat-icon color="warn" class="material-icons-outlined"
+          >highlight_off</mat-icon
+        >
+      </button>
+    </mat-form-field>
+
+    <div
+      *ngIf="dictionarySelectedWords.length"
+      class="word-order-block-btn"
+      (click)="reversDictionary()"
+    >
+      <div
+        class="rotate-conteiner"
+        [style.transform]="flagReverseDictionary ? 'rotate(-180deg)' : 'none'"
+      >
+        <mat-icon color="warn">keyboard_arrow_down</mat-icon>
+      </div>
+    </div>
+
+    <div class="main-bl-word">
+      <mat-divider></mat-divider>
+      <!-- =================================================================================== -->
+
+      <div
+        *ngFor="
+          let word of searchDictionary | slice : first : first + rows;
+          let idx = index
+        "
+        class="word-output-bl"
+      >
+        <mat-icon
+          (click)="deleteFavorites(word, $event)"
+          class="star material-icons"
+        >
+          delete_outline
+        </mat-icon>
+        <span class="number">
+          {{
+            flagReverseDictionary
+              ? searchDictionary.length - idx - first
+              : idx + first + 1
+          }}
+        </span>
+        <div class="bl-en-ru">
+          <p class="en">{{ word.wordEn }}</p>
+          <p class="ru">{{ word.wordRu }}</p>
+        </div>
+        <span class="data"> {{ word.data | date : "dd.LL.YY" }}</span>
+      </div>
+
+      <!-- ==================================================================================== -->
+    </div>
+    <div *ngIf="searchDictionary.length !== 0" class="paginator">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="totalRecords"
+      ></p-paginator>
+    </div>
+  </div>
+  <div class="settings general-style"></div>
+</div>

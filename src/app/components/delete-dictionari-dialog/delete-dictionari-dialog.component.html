@@ -1,0 +1,109 @@
+<!-- Удаление словаря -->
+<div *ngIf="data.key === 'deleteDictionary'" class="sharad">
+  <div class="warning">
+    <mat-icon class="material-symbols-rounded">warning_amber</mat-icon>
+  </div>
+  <h1 mat-dialog-title>Вы действительно хотите удалить словарь?</h1>
+
+  <div mat-dialog-content>
+    <h5>
+      После выполнения этой операции все данные в словаре будут окончательно.
+      удалены.
+    </h5>
+  </div>
+  <div class="dialog-btn" mat-dialog-actions>
+    <button style="background-color: green" mat-raised-button (click)="close()">
+      Отмена
+    </button>
+    <button
+      (click)="deleteDictionary()"
+      mat-raised-button
+      mat-dialog-close
+      cdkFocusInitial
+    >
+      Удалить словарь
+    </button>
+  </div>
+</div>
+
+<!-- Удаление слова -->
+<div *ngIf="data.key === 'deleteWord'" class="sharad">
+  <div class="warning">
+    <mat-icon class="material-symbols-rounded">warning_amber</mat-icon>
+  </div>
+
+  <h1 mat-dialog-title>Вы действительно хотите удалить выбранное слово?</h1>
+
+  <div mat-dialog-content>
+    <h5>
+      После выполнения этой операции слово "
+      {{ data.word.wordEn }} " будет окончательно удалено.
+    </h5>
+  </div>
+
+  <div class="dialog-btn" mat-dialog-actions>
+    <button style="background-color: green" mat-raised-button (click)="close()">
+      Отмена
+    </button>
+
+    <button
+      (click)="close()"
+      (click)="deleteWord()"
+      mat-raised-button
+      cdkFocusInitial
+    >
+      Удалить
+    </button>
+  </div>
+</div>
+
+<!-- Редактирование поля -->
+<div *ngIf="data.key === 'edit'" class="sharad">
+  <div class="warning">
+    <mat-icon class="material-symbols-rounded">warning_amber</mat-icon>
+  </div>
+
+  <h1 mat-dialog-title>Редактирование поля!</h1>
+
+  <div mat-dialog-content>
+    <form [formGroup]="editFormGroup">
+      <mat-form-field color="warn">
+        <mat-label>En</mat-label>
+        <input
+          matInput
+          formControlName="editEn"
+          placeholder="только латинские символы."
+        />
+      </mat-form-field>
+      <mat-form-field color="warn">
+        <mat-label>Ru</mat-label>
+        <input
+          matInput
+          formControlName="editRu"
+          placeholder="только кириллические символы."
+        />
+      </mat-form-field>
+      <div class="bl-error">
+        <mat-error *ngIf="editFormGroup.invalid">
+          Все поля должны быть заполнены и соответствовать требованиям!
+        </mat-error>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-btn" mat-dialog-actions>
+    <button style="background-color: green" mat-raised-button mat-dialog-close>
+      Отмена
+    </button>
+
+    <button
+      mat-dialog-close
+      (click)="saveEditedWord()"
+      [disabled]="editFormGroup.invalid"
+      mat-raised-button
+      cdkFocusInitial
+    >
+      Сохранить
+    </button>
+  </div>
+</div>

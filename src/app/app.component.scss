@@ -1,0 +1,127 @@
+.header {
+  width: 100%;
+  max-width: 1920px;
+  min-width: 320px;
+  height: 70px;
+  padding: 0 1rem;
+  border-bottom: 1px dashed white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  .label h1 {
+    font-size: 2.5rem;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    background-image: linear-gradient(to bottom, #464545, #ffffff);
+  }
+  .nav {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    padding: 0 1rem;
+    align-items: center;
+    .link {
+      position: relative;
+      font-size: 1.2rem;
+      text-decoration: none;
+      align-items: center;
+      text-transform: uppercase;
+    }
+    .link:after {
+      background-color: #f3a109;
+      display: block;
+      content: "";
+      height: 2px;
+      width: 0%;
+      -webkit-transition: width 0.3s ease-in-out;
+      -moz--transition: width 0.3s ease-in-out;
+      transition: width 0.3s ease-in-out;
+    }
+    .link:not(.active-link):hover:after {
+      width: 100%;
+    }
+    .active-link::after {
+      width: 100%;
+    }
+  }
+  // .burger {
+  //   display: none;
+  // }
+  // @media screen and (max-width: 700px) {
+  //   .nav {
+  //     display: none;
+  //   }
+
+  //   .burger {
+  //     display: block;
+  //   }
+  // }
+}
+.main {
+  max-width: 1920px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  position: absolute;
+  top: 71px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .block-info {
+    position: relative;
+  }
+  .content {
+    position: relative;
+  }
+}
+
+.mat-mdc-button > .mat-icon {
+  margin-left: 15px;
+  font-size: 3.125rem;
+  height: 3.125rem;
+  width: 3.125rem;
+  color: white;
+}
+::ng-deep {
+  div#cdk-overlay-0 {
+    position: static;
+  }
+  div#mat-menu-panel-0 {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(0 0 0 / 53%);
+    width: 100%;
+    max-width: 100%;
+  }
+  .cdk-overlay-connected-position-bounding-box {
+    top: 70px !important;
+  }
+  button.mat-mdc-menu-item.mat-mdc-focus-indicator.ng-tns-c2786309385-0 {
+    justify-content: center;
+  }
+}
+
+.mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+  font-size: 10px;
+  top: -15px;
+  left: 83px;
+  background-color: red;
+  border-radius: 5px 5px 5px 0;
+  padding: 2px 5px;
+  width: fit-content;
+  height: fit-content;
+  line-height: normal;
+}
+.dictionary.mat-badge-medium.mat-badge-overlap.mat-badge-after
+  .mat-badge-content {
+  left: 83px;
+}
+.favorite.mat-badge-medium.mat-badge-overlap.mat-badge-after
+  .mat-badge-content {
+  left: 115px;
+}
