@@ -73,16 +73,6 @@ body {
   }
 }
 
-// .btn-bl {
-//   display: flex;
-//   justify-content: space-around;
-//   flex-wrap: wrap;
-//   button {
-//     background-color: orange !important;
-//     margin: 1rem 0;
-//   }
-// }
-
 // =========================================================
 //                      Scroll
 // =========================================================
@@ -168,6 +158,34 @@ body {
   background-color: #00000099 !important;
 }
 
+// =============================================
+//                BUTTON
+// ==========================================
+.mat-mdc-button .mdc-button__label,
+.mat-mdc-unelevated-button .mdc-button__label,
+.mat-mdc-raised-button .mdc-button__label,
+.mat-mdc-outlined-button .mdc-button__label {
+  z-index: 1;
+  color: black;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.mat-mdc-raised-button:disabled {
+  background-color: var(
+    --mdc-protected-button-disabled-container-color,
+    rgba(0, 0, 0, 0.12)
+  ) !important;
+}
+.mat-mdc-raised-button:not(:disabled) {
+  background-color: #ff9800 !important;
+  margin: 1rem 0;
+}
+.mat-mdc-raised-button[disabled][disabled] {
+  --mdc-protected-button-disabled-container-color: rgb(255 165 0 / 40%);
+  margin: 1rem 0;
+}
+// ============
 .main-content {
   position: relative;
   mat-form-field {
@@ -191,7 +209,6 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      // transform: rotate(0deg);
       height: 40px;
       width: 50px;
       font-size: 50px;
@@ -220,6 +237,7 @@ body {
       border: 1px solid #03a8f400;
       border-bottom: 1px solid;
       background-color: #00000094;
+      padding: 0px 5px;
       * {
         font-size: 1rem;
       }
@@ -239,9 +257,9 @@ body {
       .number {
         width: 56px;
       }
-      .data {
-        padding-right: 10px;
-      }
+      // .data {
+      //   padding-right: 10px;
+      // }
       span {
         color: gray;
         padding: 5px 0;
@@ -252,16 +270,14 @@ body {
         background-color: rgba(255, 0, 0, 0);
         width: -webkit-fill-available;
         cursor: pointer;
-        .en {
-          padding: 5px 10px;
-          text-align: center;
-          width: 50%;
-          border-right: 1px dashed white;
-        }
+        .en,
         .ru {
           padding: 5px 10px;
           text-align: center;
           width: 50%;
+        }
+        .en {
+          border-right: 1px dashed white;
         }
       }
     }
@@ -270,17 +286,14 @@ body {
     .word-output-bl:hover {
       border-radius: 3px;
       border: 1px solid #03a9f4;
+      background-color: #000000;
+
       .bl-en-ru {
-        background-color: #000000;
         p {
           color: orange;
         }
       }
-      .star {
-        background-color: #000000;
-      }
       span {
-        background-color: #000000;
         color: orange;
       }
     }
@@ -288,4 +301,66 @@ body {
       background-color: yellow;
     }
   }
+}
+
+.mat-divider {
+  --mat-divider-width: 2px !important;
+  margin: 25px 0 !important;
+  border-top-color: #607d8b !important;
+}
+
+// ==================================================
+//              RADIO-BUTTON
+// ==================================================
+.mat-mdc-radio-button .mdc-radio--disabled + label {
+  color: rgb(255 255 255 / 38%) !important;
+}
+.mat-mdc-radio-button.mat-accent {
+  --mdc-radio-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
+}
+
+// ===============================================
+//                  CHECKBOX
+// ===============================================
+.mat-mdc-radio-button.mat-accent {
+  --mdc-radio-unselected-hover-icon-color: orange;
+  --mdc-radio-unselected-icon-color: rgb(81 85 49);
+  --mdc-radio-selected-focus-icon-color: orange;
+  --mdc-radio-selected-hover-icon-color: orange;
+  --mdc-radio-selected-icon-color: orange;
+  --mdc-radio-selected-pressed-icon-color: orange;
+  --mat-radio-checked-ripple-color: black;
+}
+
+.mat-mdc-checkbox.mat-accent {
+  --mdc-checkbox-unselected-icon-color: rgb(81 85 49);
+  --mdc-checkbox-selected-focus-state-layer-color: black;
+  --mdc-checkbox-selected-pressed-state-layer-color: black;
+  --mdc-checkbox-selected-focus-icon-color: orange;
+  --mdc-checkbox-selected-hover-icon-color: orange;
+  --mdc-checkbox-selected-icon-color: orange;
+  --mdc-checkbox-selected-pressed-icon-color: orange;
+  --mdc-checkbox-unselected-focus-icon-color: orange;
+  --mdc-checkbox-unselected-hover-icon-color: orange;
+  --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.123);
+}
+.mat-mdc-checkbox.mat-mdc-checkbox-disabled label {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+  font-weight: 100;
+  background-color: rgba(255, 0, 0, 0.76);
+  border-radius: 5px 5px 5px 0;
+  padding: 2px 5px;
+  width: fit-content;
+  height: fit-content;
+  line-height: normal;
 }

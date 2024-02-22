@@ -2,13 +2,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DictionaryModel } from 'src/app/models/dictionary.model';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-studying',
@@ -18,10 +21,14 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 export class StudyingComponent implements OnInit {
   @ViewChild('myInput') inputElement!: ElementRef;
 
+  selectOptions = [5, 10, 20, 30, 40, 50, 75, 100];
+
   inputControl: FormControl = new FormControl('');
+  selectControl: FormControl = new FormControl(5);
 
   dictionary: DictionaryModel[] = [];
   favoritDictionary: DictionaryModel[] = [];
+  wordErrorDictionary: DictionaryModel[] = [];
 
   selectedDictionary: DictionaryModel[] = [];
 
@@ -30,6 +37,7 @@ export class StudyingComponent implements OnInit {
   flagShowTranslation: boolean = false;
   grade: boolean | null = null;
   noWord: boolean = false;
+  shiftKeyEnabled: boolean = false;
 
   currentIndex: number = 0;
 
@@ -53,13 +61,33 @@ export class StudyingComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.dictionaryService
+      .getDatawordsErrorLog()
+      .subscribe((data) => (this.wordErrorDictionary = [...data]));
+
+    this.selectControl.valueChanges.subscribe(() => {
+      this.currentIndex = 0;
+
+      if (this.wordPriority === 'Выбрать последние') {
+        let selectedValue = +this.selectControl.value;
+        this.selectedDictionary = [...this.dictionary.slice(0, selectedValue)];
+      }
+      this.randomArray();
+    });
+
     this.dictionaryService.getData().subscribe((data) => {
       this.dictionary = data;
       this.selectedDictionary = [...this.dictionary];
+      if (this.dictionary.length > 5) {
+        this.selectOptions = this.selectOptions.filter(
+          (option) => option <= this.dictionary.length
+        );
+      }
     });
 
     this.dictionaryService.getDataSelectedWords().subscribe((data) => {
@@ -74,13 +102,20 @@ export class StudyingComponent implements OnInit {
     this.wordOrder.get('random')?.valueChanges.subscribe(() => {
       this.currentIndex = 0;
       this.noWord = false;
+      this.flagShowTranslation = false;
       this.inputControl.setValue('');
 
       if (this.wordPriority === 'Весь словарь') {
         this.selectedDictionary = [...this.dictionary];
       } else if (this.wordPriority === 'Избранные слова') {
         this.selectedDictionary = [...this.favoritDictionary];
+      } else if (this.wordPriority === 'Работа над ошибками') {
+        this.selectedDictionary = [...this.wordErrorDictionary];
+      } else if (this.wordPriority === 'Выбрать последние') {
+        let selectedValue = +this.selectControl.value;
+        this.selectedDictionary = [...this.dictionary.slice(0, selectedValue)];
       }
+
       this.randomArray();
     });
 
@@ -90,15 +125,24 @@ export class StudyingComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.inputElement.nativeElement.focus();
-    this.cdr.detectChanges();
+    if (this.inputElement) {
+      this.inputElement.nativeElement.focus();
+      this.cdr.detectChanges();
+    }
+  }
+
+  openErrorDialog(key: string, errorMessage?: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: { key, errorMessage },
+    });
   }
 
   isAnyArrayEmpty(season: string) {
     return (
       (season === 'Избранные слова' && this.favoritDictionary.length === 0) ||
       (season === 'Весь словарь' && this.dictionary.length === 0) ||
-      (season === 'Работа над ошибками' && this.mistakesArray.length === 0) ||
+      (season === 'Работа над ошибками' &&
+        this.wordErrorDictionary.length === 0) ||
       (season === 'Выбрать последние' && this.dictionary.length < 5)
     );
   }
@@ -113,6 +157,8 @@ export class StudyingComponent implements OnInit {
   }
 
   backWord() {
+    this.shiftKeyEnabled = false;
+
     if (this.wordOrder.get('repeat')?.value) {
       if (this.currentIndex <= 0 && !this.wordOrder.get('random')?.value) {
         this.currentIndex = this.selectedDictionary.length - 1;
@@ -134,6 +180,8 @@ export class StudyingComponent implements OnInit {
   }
 
   nextWord() {
+    this.shiftKeyEnabled = false;
+
     if (
       this.wordOrder.get('repeat')?.value &&
       this.wordOrder.get('random')?.value
@@ -161,27 +209,37 @@ export class StudyingComponent implements OnInit {
     this.flagShowTranslation = false;
     this.grade = null;
     this.inputControl.setValue('');
+    console.log(this.noWord);
   }
 
   examinationWord() {
-    const inputValue = this.inputControl.value.trim().toUpperCase();
-    const currentWord = this.selectedDictionary[this.currentIndex];
+    if (!this.noWord) {
+      this.shiftKeyEnabled = true;
+      const inputValue = this.inputControl.value.trim().toUpperCase();
+      const currentWord = this.selectedDictionary[this.currentIndex];
 
-    if (!inputValue) {
-      this.grade = null;
-      return;
+      if (!inputValue) {
+        this.grade = null;
+        return;
+      }
+
+      if (this.languagePriority === 'Русский - Английский') {
+        this.grade = inputValue === currentWord.wordEn.toUpperCase();
+      } else if (this.languagePriority === 'Английский - Русский') {
+        const wordRu = currentWord.wordRu
+          .split(',')
+          .map((word) => word.trim().toUpperCase());
+        this.grade = wordRu.includes(inputValue);
+      }
+
+      this.errorChecking();
     }
+  }
 
-    if (this.languagePriority === 'Русский - Английский') {
-      this.grade = inputValue === currentWord.wordEn.toUpperCase();
-    } else if (this.languagePriority === 'Английский - Русский') {
-      const wordRu = currentWord.wordRu
-        .split(',')
-        .map((word) => word.trim().toUpperCase());
-      this.grade = wordRu.includes(inputValue);
+  showTranslite() {
+    if (this.shiftKeyEnabled) {
+      this.flagShowTranslation = !this.flagShowTranslation;
     }
-
-    this.errorChecking();
   }
 
   redirectToDictionary() {
@@ -191,20 +249,22 @@ export class StudyingComponent implements OnInit {
   private useDictionary(word: string) {
     this.currentIndex = 0;
     this.noWord = false;
+    this.flagShowTranslation = false;
     this.inputControl.setValue('');
+    this.selectControl.setValue(5);
 
     if (word === 'Весь словарь') {
       this.selectedDictionary = [...this.dictionary];
     } else if (word === 'Избранные слова') {
       this.selectedDictionary = [...this.favoritDictionary];
     } else if (word === 'Работа над ошибками') {
-      this.selectedDictionary = [...this.mistakesArray];
+      this.wordOrder.controls['repeat'].setValue(false);
+      this.selectedDictionary = [...this.wordErrorDictionary];
     } else if (word === 'Выбрать последние') {
-      const arr = [...this.dictionary];
-      this.selectedDictionary = arr.splice(-5);
-
-      // console.log(this.dictionary);
+      let selectedValue = +this.selectControl.value;
+      this.selectedDictionary = [...this.dictionary.slice(0, selectedValue)];
     }
+
     this.randomArray();
   }
 
@@ -217,11 +277,33 @@ export class StudyingComponent implements OnInit {
       )
     ) {
       this.mistakesArray.push(this.selectedDictionary[this.currentIndex]);
+      this.dictionaryService.addErrorWord(
+        this.selectedDictionary[this.currentIndex]
+      );
     } else if (this.grade) {
       this.mistakesArray = this.mistakesArray.filter(
         (word) =>
           word.wordEn !== this.selectedDictionary[this.currentIndex].wordEn
       );
+
+      this.dictionaryService.filtrErrorWord(
+        this.selectedDictionary[this.currentIndex]
+      );
+    }
+    if (
+      this.wordPriority === 'Работа над ошибками' &&
+      this.wordErrorDictionary.length === 0
+    ) {
+      setTimeout(() => {
+        this.openErrorDialog('non');
+        this.wordPriority = 'Весь словарь';
+        this.selectedDictionary = [...this.dictionary];
+        this.currentIndex = 0;
+        this.flagShowTranslation = false;
+        this.grade = null;
+        this.noWord = false;
+        this.inputControl.setValue('');
+      }, 1500);
     }
   }
 

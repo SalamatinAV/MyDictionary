@@ -22,8 +22,15 @@
     display: flex;
     justify-content: center;
     gap: 30px;
-    button {
-      background-color: green;
-    }
+  }
+}
+:host ::ng-deep {
+  .mat-mdc-raised-button .mdc-button__label,
+  .mat-mdc-outlined-button .mdc-button__label {
+    color: #fcfcfc;
+    font-weight: 100 !important;
+  }
+  .mat-mdc-raised-button:not(:disabled) {
+    background-color: green !important;
   }
 }

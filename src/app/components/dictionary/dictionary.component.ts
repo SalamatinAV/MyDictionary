@@ -18,8 +18,8 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
   styleUrls: ['./dictionary.component.scss'],
 })
 export class DictionaryComponent implements OnInit {
-  first: number = 0;
-  rows: number = 25;
+  first!: number;
+  rows: number = 100;
   totalRecords: number = 0;
   page: number = 0;
 
@@ -42,6 +42,8 @@ export class DictionaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.first = this.dictionaryService.getCurrentPageDictionary();
+
     this.dictionaryService.getData().subscribe((data) => {
       this.dictionary = data;
       this.totalRecords = this.dictionary.length;
@@ -91,10 +93,10 @@ export class DictionaryComponent implements OnInit {
 
   // ================================================ Диалоговые окна
 
-  openErrorDialog(errorMessage: string): void {
+  openErrorDialog(key: string, errorMessage: string): void {
     this.dialog
       .open(ErrorDialogComponent, {
-        data: { errorMessage },
+        data: { key, errorMessage },
       })
       .afterClosed()
       .subscribe((q) => console.log(q));
@@ -139,6 +141,7 @@ export class DictionaryComponent implements OnInit {
     });
     if (this.dialogErrorWord.length > 0) {
       this.openErrorDialog(
+        'exists',
         `Перевод со словом  ${this.dialogErrorWord.join(' ')} уже существует .`
       );
       this.dialogErrorWord = [];
@@ -214,5 +217,6 @@ export class DictionaryComponent implements OnInit {
 
   onPageChange(event: any) {
     this.first = event.first;
+    this.dictionaryService.setCurrentPageDictionary(this.first);
   }
 }

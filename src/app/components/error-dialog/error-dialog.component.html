@@ -1,4 +1,4 @@
-<div class="sharad">
+<div class="sharad" *ngIf="data.key === 'exists'">
   <div class="warning">
     <mat-icon class="material-symbols-rounded">warning_amber</mat-icon>
   </div>
@@ -6,6 +6,18 @@
     <h5>
       {{ data.errorMessage }}
     </h5>
+  </div>
+  <div class="dialog-btn" mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Закрыть</button>
+  </div>
+</div>
+
+<div class="sharad" *ngIf="data.key === 'non'">
+  <div class="warning">
+    <mat-icon class="material-symbols-rounded">warning_amber</mat-icon>
+  </div>
+  <div mat-dialog-content>
+    <h5>Словарь с ошибками пуст!</h5>
   </div>
   <div class="dialog-btn" mat-dialog-actions>
     <button mat-raised-button mat-dialog-close>Закрыть</button>

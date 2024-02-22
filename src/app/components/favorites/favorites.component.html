@@ -40,6 +40,7 @@
         class="word-output-bl"
       >
         <mat-icon
+          *ngIf="languagePriority === 'Избранные'"
           (click)="deleteFavorites(word, $event)"
           class="star material-icons"
         >
@@ -70,5 +71,22 @@
       ></p-paginator>
     </div>
   </div>
-  <div class="settings general-style"></div>
+  <div class="settings general-style">
+    <label id="example-radio-group-label">Показать:</label>
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="languagePriority"
+    >
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let language of language"
+        [value]="language"
+        (click)="useDictionary(language)"
+        [matBadge]="getBadgeValue(language)"
+      >
+        {{ language }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
 </div>

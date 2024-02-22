@@ -44,7 +44,7 @@
           (keydown.enter)="examinationWord()"
           (keydown.arrowright)="nextWord()"
           (keydown.arrowleft)="backWord()"
-          (keydown.shift)="flagShowTranslation = !flagShowTranslation"
+          (keydown.shift)="showTranslite()"
         />
       </mat-form-field>
       <p [style.opacity]="!flagShowTranslation ? 0 : 1" class="translation">
@@ -58,7 +58,9 @@
 
       <div class="btn-bl">
         <button
-          [disabled]="inputControl.value === ''"
+          [disabled]="
+            inputControl.value === '' || (inputControl.value && noWord)
+          "
           (click)="examinationWord()"
           mat-raised-button
         >
@@ -126,7 +128,11 @@
         <mat-checkbox formControlName="random">Случайный порядок</mat-checkbox>
       </p>
       <p>
-        <mat-checkbox formControlName="repeat">Повтор слов</mat-checkbox>
+        <mat-checkbox
+          [disabled]="wordPriority === 'Работа над ошибками'"
+          formControlName="repeat"
+          >Повтор слов</mat-checkbox
+        >
       </p>
     </section>
 
@@ -147,19 +153,25 @@
       >
         {{ season }}
         <div *ngIf="season === 'Выбрать последние'" class="select">
-          <select [disabled]="dictionary.length < 5" name="" id="">
-            <option value="">5</option>
-            <option value="">10</option>
-            <option value="">20</option>
+          <select
+            [formControl]="selectControl"
+            (click)="$event.stopPropagation()"
+          >
+            <option
+              [disabled]="
+                dictionary.length < 5 || wordPriority !== 'Выбрать последние'
+              "
+              *ngFor="let option of selectOptions"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
           </select>
         </div>
       </mat-radio-button>
     </mat-radio-group>
 
     <mat-divider></mat-divider>
-
-    <p>Действия над ошибками:</p>
-    <button mat-raised-button>Показать</button>
   </div>
 </div>
 <ng-template #noDictionary>

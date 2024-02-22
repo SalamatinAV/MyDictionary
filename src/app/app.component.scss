@@ -1,4 +1,5 @@
 .header {
+  margin: 0 auto;
   width: 100%;
   max-width: 1920px;
   min-width: 320px;
@@ -64,6 +65,7 @@
   // }
 }
 .main {
+  margin: 0 auto;
   max-width: 1920px;
   display: grid;
   grid-template-columns: 1fr 3fr;
@@ -106,22 +108,8 @@
   }
 }
 
-.mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
-  font-size: 10px;
-  top: -15px;
-  left: 83px;
-  background-color: red;
-  border-radius: 5px 5px 5px 0;
-  padding: 2px 5px;
-  width: fit-content;
-  height: fit-content;
-  line-height: normal;
-}
 .dictionary.mat-badge-medium.mat-badge-overlap.mat-badge-after
   .mat-badge-content {
   left: 83px;
-}
-.favorite.mat-badge-medium.mat-badge-overlap.mat-badge-after
-  .mat-badge-content {
-  left: 115px;
+  top: -15px;
 }

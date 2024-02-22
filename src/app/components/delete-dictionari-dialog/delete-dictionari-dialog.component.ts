@@ -80,9 +80,10 @@ export class DeleteDictionariDialogComponent {
         this.editFormGroup.get('editRu')?.value;
     } else {
       this.openErrorDialog(
-        `Перевод со словом  ${
-          this.editFormGroup.get('editEn')?.value
-        } уже существует .`
+        'exists',
+        `Перевод со словом "${this.editFormGroup
+          .get('editEn')
+          ?.value.toUpperCase()}" уже существует .`
       );
     }
 
@@ -93,9 +94,9 @@ export class DeleteDictionariDialogComponent {
     this.dialogRef.close(true);
   }
 
-  openErrorDialog(errorMessage: string): void {
+  openErrorDialog(key: string, errorMessage: string): void {
     this.matDialog.open(ErrorDialogComponent, {
-      data: { errorMessage },
+      data: { key, errorMessage },
     });
   }
 

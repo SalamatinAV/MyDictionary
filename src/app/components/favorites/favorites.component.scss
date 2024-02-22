@@ -8,3 +8,10 @@
 .mat-mdc-raised-button[disabled][disabled] {
   --mdc-protected-button-disabled-container-color: rgb(255 165 0 / 40%);
 }
+:host::ng-deep {
+  .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    position: relative;
+    right: -5px !important;
+    top: -15px !important;
+  }
+}
