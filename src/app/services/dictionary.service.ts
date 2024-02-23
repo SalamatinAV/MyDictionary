@@ -7,7 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class DictionaryService {
   currentPageDictionary: number = 0;
-  currentPageFavorites: number = 0;
 
   private dictionary$ = new BehaviorSubject<DictionaryModel[]>(
     this.getLocalStoroge()
@@ -68,7 +67,6 @@ export class DictionaryService {
   filtrErrorWord(item: DictionaryModel) {
     let currentData = this.wordsErrorLog$.value;
     currentData = currentData.filter((word) => word.wordEn !== item.wordEn);
-
     this.updateDatawordsErrorLog(currentData);
   }
 
@@ -109,12 +107,6 @@ export class DictionaryService {
 
   setCurrentPageDictionary(page: number): void {
     this.currentPageDictionary = page;
-  }
-  getCurrentPageFavorites(): number {
-    return this.currentPageFavorites;
-  }
-  setCurrentPageFavorites(page: number): void {
-    this.currentPageFavorites = page;
   }
 
   // Сохранение данных в localStorage

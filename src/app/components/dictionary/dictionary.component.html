@@ -31,7 +31,6 @@
     <div *ngIf="dictionary.length; else noDictionary" class="main-bl-word">
       <mat-divider></mat-divider>
       <!-- =================================================================================== -->
-      <!-- !word.favorites ? 'Добавить в избранные' : 'Удалить из избранных' -->
       <div
         *ngFor="
           let word of searchDictionary | slice : first : first + rows;

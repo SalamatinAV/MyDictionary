@@ -15,7 +15,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';

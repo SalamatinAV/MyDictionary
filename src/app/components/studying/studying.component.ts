@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -209,7 +208,6 @@ export class StudyingComponent implements OnInit {
     this.flagShowTranslation = false;
     this.grade = null;
     this.inputControl.setValue('');
-    console.log(this.noWord);
   }
 
   examinationWord() {

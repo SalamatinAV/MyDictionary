@@ -43,8 +43,6 @@ export class FavoritesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.first = this.dictionaryService.getCurrentPageFavorites();
-
     this.dictionaryService.getDatawordsErrorLog().subscribe((data) => {
       this.dictionaryErrorWord = data;
     });
@@ -101,7 +99,6 @@ export class FavoritesComponent implements OnInit {
       this.firstError = event.first;
       this.first = this.firstError;
     }
-    console.log(this.firstSelected);
   }
 
   getBadgeValue(languagePriority: string): number | undefined {
@@ -116,7 +113,7 @@ export class FavoritesComponent implements OnInit {
     ) {
       return this.dictionaryErrorWord.length;
     } else {
-      return undefined; // или любое другое значение по умолчанию
+      return undefined;
     }
   }
 }

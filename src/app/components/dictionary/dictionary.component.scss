@@ -69,32 +69,4 @@
     caret-color: orange;
     color: white;
   }
-
-  // // =============================================
-  // //                BUTTON
-  // // ==========================================
-  // .mat-mdc-button .mdc-button__label,
-  // .mat-mdc-unelevated-button .mdc-button__label,
-  // .mat-mdc-raised-button .mdc-button__label,
-  // .mat-mdc-outlined-button .mdc-button__label {
-  //   z-index: 1;
-  //   color: black;
-  //   font-size: 1rem;
-  //   font-weight: 600;
-  // }
-
-  // .mat-mdc-raised-button:disabled {
-  //   background-color: var(
-  //     --mdc-protected-button-disabled-container-color,
-  //     rgba(0, 0, 0, 0.12)
-  //   ) !important;
-  // }
-  // .mat-mdc-raised-button:not(:disabled) {
-  //   background-color: #ff9800;
-  //   margin: 1rem 0;
-  // }
-  // .mat-mdc-raised-button[disabled][disabled] {
-  //   --mdc-protected-button-disabled-container-color: rgb(255 165 0 / 40%);
-  //   margin: 1rem 0;
-  // }
 }
