@@ -10,7 +10,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 })
 export class FavoritesComponent implements OnInit {
   first: number = 0;
-  rows: number = 100;
+  rows: number = 30;
   totalRecords: number = 0;
   page: number = 0;
   flagReverseDictionary: boolean = false;
@@ -31,17 +31,6 @@ export class FavoritesComponent implements OnInit {
 
   constructor(private dictionaryService: DictionaryService) {}
 
-  useDictionary(word: string) {
-    if (word === 'Избранные') {
-      this.searchDictionary = [...this.dictionarySelectedWords];
-      this.first = this.firstSelected;
-    } else if (word === 'Работа над ошибками') {
-      this.searchDictionary = [...this.dictionaryErrorWord];
-      this.first = this.firstError;
-    }
-    this.intermediateArray = this.searchDictionary;
-  }
-
   ngOnInit(): void {
     this.dictionaryService.getDatawordsErrorLog().subscribe((data) => {
       this.dictionaryErrorWord = data;
@@ -58,6 +47,7 @@ export class FavoritesComponent implements OnInit {
       this.searchInArray(e.toLowerCase().trim());
       this.totalRecords = this.searchDictionary.length;
     });
+    this.dictionarySelectedEmpty();
   }
 
   deleteFavorites(word: DictionaryModel, ev: Event) {
@@ -65,6 +55,7 @@ export class FavoritesComponent implements OnInit {
     if (this.languagePriority === 'Избранные') {
       this.dictionaryService.favorites(word);
     }
+    this.dictionarySelectedEmpty();
   }
 
   reversDictionary() {
@@ -114,6 +105,41 @@ export class FavoritesComponent implements OnInit {
       return this.dictionaryErrorWord.length;
     } else {
       return undefined;
+    }
+  }
+
+  useDictionary(event: Event, word: string) {
+    if (this.isAnyArrayEmpty(word)) {
+      event.stopPropagation();
+      event.preventDefault();
+    } else {
+      if (word === 'Избранные') {
+        this.searchDictionary = [...this.dictionarySelectedWords];
+        this.first = this.firstSelected;
+      } else if (word === 'Работа над ошибками') {
+        this.searchDictionary = [...this.dictionaryErrorWord];
+        this.first = this.firstError;
+      }
+      this.intermediateArray = this.searchDictionary;
+    }
+  }
+
+  isAnyArrayEmpty(season: string) {
+    return (
+      (season === 'Избранные' && this.dictionarySelectedWords.length === 0) ||
+      (season === 'Работа над ошибками' &&
+        this.dictionaryErrorWord.length === 0)
+    );
+  }
+
+  private dictionarySelectedEmpty() {
+    if (
+      this.dictionarySelectedWords.length === 0 &&
+      this.dictionaryErrorWord.length !== 0
+    ) {
+      this.languagePriority = 'Работа над ошибками';
+      this.searchDictionary = [...this.dictionaryErrorWord];
+      this.totalRecords = this.dictionaryErrorWord.length;
     }
   }
 }

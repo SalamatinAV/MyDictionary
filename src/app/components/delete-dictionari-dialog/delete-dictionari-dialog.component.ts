@@ -81,9 +81,9 @@ export class DeleteDictionariDialogComponent {
     } else {
       this.openErrorDialog(
         'exists',
-        `Перевод со словом "${this.editFormGroup
-          .get('editEn')
-          ?.value.toUpperCase()}" уже существует .`
+        `Перевод со словом "${
+          this.editFormGroup.get('editEn')?.value
+        }" уже существует .`
       );
     }
 
@@ -102,14 +102,14 @@ export class DeleteDictionariDialogComponent {
 
   private latinValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const latinPattern = /^[a-zA-Z-',.\s]+$/;
+      const latinPattern = /^[a-zA-Z-',./?!\s]+$/;
       const isValid = latinPattern.test(control.value);
       return isValid ? null : { latinOnly: { value: control.value } };
     };
   }
   private cirilicValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const latinPattern = /^[а-яА-Я-',.\s]+$/;
+      const latinPattern = /^[а-яА-Я-',./?!\s]+$/;
       const isValid = latinPattern.test(control.value);
       return isValid ? null : { latinOnly: { value: control.value } };
     };

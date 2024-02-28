@@ -55,10 +55,10 @@ export class DictionaryService {
     this.updateData(currentData);
   }
 
-  addErrorWord(mA: DictionaryModel) {
+  addErrorWord(item: DictionaryModel) {
     const currentData = this.wordsErrorLog$.value;
-    if (!currentData.some((word) => word.wordEn === mA.wordEn)) {
-      currentData.push(mA);
+    if (!currentData.some((word) => word.wordEn === item.wordEn)) {
+      currentData.push(item);
     }
 
     this.updateDatawordsErrorLog(currentData);
@@ -81,6 +81,7 @@ export class DictionaryService {
   deleteDictionary() {
     this.updateData([]);
     this.updateDataSelectedWords([]);
+    this.updateDatawordsErrorLog([]);
   }
 
   // Добавление и удаление слов в избранные

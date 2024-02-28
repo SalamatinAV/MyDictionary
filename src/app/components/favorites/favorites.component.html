@@ -28,7 +28,10 @@
       </div>
     </div>
 
-    <div class="main-bl-word">
+    <div
+      class="main-bl-word"
+      *ngIf="searchDictionary.length; else noDictionary"
+    >
       <mat-divider></mat-divider>
       <!-- =================================================================================== -->
 
@@ -82,7 +85,8 @@
         class="example-radio-button"
         *ngFor="let language of language"
         [value]="language"
-        (click)="useDictionary(language)"
+        [disabled]="isAnyArrayEmpty(language)"
+        (click)="useDictionary($event, language)"
         [matBadge]="getBadgeValue(language)"
       >
         {{ language }}
@@ -90,3 +94,9 @@
     </mat-radio-group>
   </div>
 </div>
+
+<ng-template #noDictionary>
+  <div class="no-dictionary">
+    <h1>Словарь пуст!</h1>
+  </div>
+</ng-template>

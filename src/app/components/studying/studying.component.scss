@@ -104,3 +104,15 @@
     background-color: #000000;
   }
 }
+.select-disabled {
+  color: grey;
+  border-color: #ff99003f !important;
+}
+
+:host::ng-deep {
+  .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    position: relative;
+    right: -5px !important;
+    top: -15px !important;
+  }
+}

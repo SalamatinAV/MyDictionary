@@ -19,7 +19,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 })
 export class DictionaryComponent implements OnInit {
   first!: number;
-  rows: number = 100;
+  rows: number = 30;
   totalRecords: number = 0;
   page: number = 0;
 
@@ -94,12 +94,9 @@ export class DictionaryComponent implements OnInit {
   // ================================================ Диалоговые окна
 
   openErrorDialog(key: string, errorMessage: string): void {
-    this.dialog
-      .open(ErrorDialogComponent, {
-        data: { key, errorMessage },
-      })
-      .afterClosed()
-      .subscribe((q) => console.log(q));
+    this.dialog.open(ErrorDialogComponent, {
+      data: { key, errorMessage },
+    });
   }
 
   deleteDictionaryDialog(key: string, word?: DictionaryModel): void {
@@ -132,9 +129,7 @@ export class DictionaryComponent implements OnInit {
           if (!this.dictionary.some((t) => t.wordEn === subObject.wordEn)) {
             this.dictionaryService.addWords(subObject);
           } else {
-            this.dialogErrorWord.push(
-              `"${subObject.wordEn.toLocaleUpperCase()}"`
-            );
+            this.dialogErrorWord.push(`"${subObject.wordEn}"`);
           }
         }
       }
@@ -198,8 +193,8 @@ export class DictionaryComponent implements OnInit {
         const latinPart: string = parts[0];
         const cyrillicPart: string = parts[1];
 
-        const latinRegex: RegExp = /^[a-zA-Z-',.\s]+$/;
-        const cyrillicRegex: RegExp = /^[а-яА-Я-,\s]+$/;
+        const latinRegex: RegExp = /^[a-zA-Z-',./?!\s]+$/;
+        const cyrillicRegex: RegExp = /^[а-яА-Я-,./?!\s]+$/;
 
         if (!latinRegex.test(latinPart) || !cyrillicRegex.test(cyrillicPart)) {
           return { latinCyrillic: true };

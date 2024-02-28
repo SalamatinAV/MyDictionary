@@ -150,10 +150,15 @@
         [value]="season"
         [disabled]="isAnyArrayEmpty(season)"
         (click)="handleRadioClick($event, season)"
+        [matBadge]="getBadgeValue(season)"
       >
         {{ season }}
         <div *ngIf="season === 'Выбрать последние'" class="select">
           <select
+            [class]="
+              wordPriority !== 'Выбрать последние' ? 'select-disabled' : ''
+            "
+            (mousedown)="onSelectMouseDown($event)"
             [formControl]="selectControl"
             (click)="$event.stopPropagation()"
           >

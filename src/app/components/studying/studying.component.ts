@@ -204,6 +204,16 @@ export class StudyingComponent implements OnInit {
         this.noWord = true;
       }
     }
+    if (this.noWord) {
+      setTimeout(() => {
+        this.selectedDictionary = [...this.wordErrorDictionary];
+        this.currentIndex = 0;
+        this.flagShowTranslation = false;
+        this.grade = null;
+        this.noWord = false;
+        this.inputControl.setValue('');
+      }, 1500);
+    }
 
     this.flagShowTranslation = false;
     this.grade = null;
@@ -225,7 +235,7 @@ export class StudyingComponent implements OnInit {
         this.grade = inputValue === currentWord.wordEn.toUpperCase();
       } else if (this.languagePriority === 'Английский - Русский') {
         const wordRu = currentWord.wordRu
-          .split(',')
+          .split('/')
           .map((word) => word.trim().toUpperCase());
         this.grade = wordRu.includes(inputValue);
       }
@@ -244,12 +254,30 @@ export class StudyingComponent implements OnInit {
     this.router.navigate(['/dictionary']);
   }
 
+  getBadgeValue(languagePriority: string): number | undefined {
+    if (
+      languagePriority === 'Работа над ошибками' &&
+      this.wordErrorDictionary.length > 0
+    ) {
+      return this.wordErrorDictionary.length;
+    } else {
+      return undefined;
+    }
+  }
+
+  onSelectMouseDown(event: MouseEvent): void {
+    if (this.wordPriority !== 'Выбрать последние') {
+      event.preventDefault();
+    }
+  }
+
   private useDictionary(word: string) {
     this.currentIndex = 0;
     this.noWord = false;
     this.flagShowTranslation = false;
     this.inputControl.setValue('');
     this.selectControl.setValue(5);
+    this.mistakesArray = [];
 
     if (word === 'Весь словарь') {
       this.selectedDictionary = [...this.dictionary];
@@ -288,6 +316,7 @@ export class StudyingComponent implements OnInit {
         this.selectedDictionary[this.currentIndex]
       );
     }
+
     if (
       this.wordPriority === 'Работа над ошибками' &&
       this.wordErrorDictionary.length === 0
