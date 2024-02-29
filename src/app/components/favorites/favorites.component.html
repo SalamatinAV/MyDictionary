@@ -28,10 +28,7 @@
       </div>
     </div>
 
-    <div
-      class="main-bl-word"
-      *ngIf="searchDictionary.length; else noDictionary"
-    >
+    <div class="main-bl-word">
       <mat-divider></mat-divider>
       <!-- =================================================================================== -->
 
@@ -94,9 +91,3 @@
     </mat-radio-group>
   </div>
 </div>
-
-<ng-template #noDictionary>
-  <div class="no-dictionary">
-    <h1>Словарь пуст!</h1>
-  </div>
-</ng-template>

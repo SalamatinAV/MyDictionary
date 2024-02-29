@@ -84,12 +84,14 @@
         matInput
         placeholder="Пример добавления слов:
         English = английский
+        really=реально/действительно 
 
 Если несколько слов:
         a lot = много
         tea = чай
         airport = аэропорт
-        ... "
+        ...
+        "
         (blur)="isShowRequiredError()"
       ></textarea>
       <mat-error *ngIf="formControlTextarea.hasError('latinCyrillic')">

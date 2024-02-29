@@ -204,14 +204,15 @@ export class StudyingComponent implements OnInit {
         this.noWord = true;
       }
     }
-    if (this.noWord) {
+    if (
+      this.noWord &&
+      this.wordPriority === 'Работа над ошибками' &&
+      this.wordErrorDictionary.length !== 0
+    ) {
       setTimeout(() => {
         this.selectedDictionary = [...this.wordErrorDictionary];
         this.currentIndex = 0;
-        this.flagShowTranslation = false;
-        this.grade = null;
         this.noWord = false;
-        this.inputControl.setValue('');
       }, 1500);
     }
 
